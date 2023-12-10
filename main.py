@@ -4,6 +4,12 @@ from opcua import Client
 import time
 
 
+create_table_query = "CREATE TABLE IF NOT EXISTS data ( id INT AUTO_INCREMENT PRIMARY KEY, \
+                                                        variable INT UNSIGNED)"
+insert_query = "INSERT INTO data (id, variable) VALUES (%s, %s)"
+opc_ua_url = "opc.tcp://opcua.demo-this.com:51210/UA/SampleServer"
+
+
 def main():
     while True:
         output_data = get_data_from_OPC_UA_server()
@@ -12,13 +18,6 @@ def main():
         except mysql.connector.errors.InterfaceError as error:
             print("[DB]: Unable to establish connection to database mysql.agh.edu.pl.")
             time.sleep(1)
-
-
-create_table_query = "CREATE TABLE IF NOT EXISTS data ( id INT AUTO_INCREMENT PRIMARY KEY, \
-                                                        variable INT UNSIGNED)"
-insert_query = "INSERT INTO data (id, variable) VALUES (%s, %s)"
-
-opc_ua_url = "opc.tcp://opcua.demo-this.com:51210/UA/SampleServer"
 
 
 def send_data_to_database(data_dict):
